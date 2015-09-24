@@ -30,7 +30,7 @@ license.
 * [Use slashes for comments](#use-slashes-for-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
-* [Prefer functional style](#functional-style)
+* [Prefer functional style](#prefer-functional-style)
 
 ## 2 Spaces for indention
 
