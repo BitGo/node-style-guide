@@ -30,6 +30,7 @@ license.
 * [Use slashes for comments](#use-slashes-for-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
+* [Prefer functional style](#functional-style)
 
 ## 2 Spaces for indention
 
@@ -526,3 +527,38 @@ Feel free to use getters that are free from [side effects][sideeffect], like
 providing a length property for a collection class.
 
 [sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
+
+## Prefer functional style
+
+Prefer an approach which avoids side effects and data mutation. This means
+preferring using Array.map, Array.filter and the functions available through
+[lodash][lodash] to transform data into other data, as opposed to mutating existing
+data. If a for loop is used, consider whether it can be replaced by Array.forEach,
+or (better) a map or lodash chain.
+
+Use lodash chaining for longer chains of functions applied in sequence. Don't use it
+for short applications of lodash functions.
+
+*Right:*
+
+```js
+var parents = _(transactions)
+.pluck('i')
+.flatten()
+.map(hashFromInput)
+.uniq()
+.value();
+
+var uniqueWallets = _.uniq(wallets);
+```
+
+*Wrong:*
+
+```js
+var parents = _.uniq(_.map(_.flatten(_.pluck(transactions, 'i')), hashFromInput));
+
+var uniqueWallets = _(wallets).uniq().value();
+```
+
+[lodash]: https://lodash.com/docs
+
