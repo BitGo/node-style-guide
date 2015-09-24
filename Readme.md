@@ -1,17 +1,12 @@
 # Node.js Style Guide
 
-This is a guide for writing consistent and aesthetically pleasing node.js code.
+This is the BitGo guide for writing consistent and aesthetically pleasing node.js code.
 It is inspired by what is popular within the community, and flavored with some
 personal opinions.
 
-There is a .jshintrc which enforces these rules as closely as possible. You can
-either use that and adjust it, or use
-[this script](https://gist.github.com/kentcdodds/11293570) to make your own.
-
-This guide was created by [Felix Geisendörfer](http://felixge.de/) and is
+This guide was forked from the version created by [Felix Geisendörfer](http://felixge.de/) and is
 licensed under the [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)
-license. You are encouraged to fork this repository and make adjustments
-according to your preferences.
+license.
 
 ![Creative Commons License](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)
 
@@ -109,11 +104,22 @@ Also, notice the use of whitespace before and after the condition statement.
 
 ## Method chaining
 
-One method per line should be used if you want to chain methods.
+One method per line should be used if you want to chain methods beyond a very short chain.
 
-You should also indent these methods so it's easier to tell they are part of the same chain.
+You should NOT indent these methods.
 
 *Right:*
+
+```js
+return User.findOne({ name: 'foo' })
+.populate('bar')
+.execQ()
+.then(function() {
+  // do something
+});
+````
+
+*Wrong:*
 
 ```js
 User
@@ -122,17 +128,6 @@ User
   .exec(function(err, user) {
     return true;
   });
-````
-
-*Wrong:*
-
-```js
-User
-.findOne({ name: 'foo' })
-.populate('bar')
-.exec(function(err, user) {
-  return true;
-});
 
 User.findOne({ name: 'foo' })
   .populate('bar')
@@ -375,14 +370,15 @@ if (password.length >= 4 && /^(?=.*\d).{4,}$/.test(password)) {
 
 ## Write small functions
 
-Keep your functions short. A good function fits on a slide that the people in
+Keep your functions short, if possible. A good function fits on a slide that the people in
 the last row of a big room can comfortably read. So don't count on them having
-perfect vision and limit yourself to ~15 lines of code per function.
+perfect vision and limit yourself to ~15 lines of code per function. This rule is not hard
+and fast at BitGo -- we have some whopping big functions. But it is still good practice.
 
 ## Return early from functions
 
 To avoid deep nesting of if-statements, always return a function's value as early
-as possible.
+as possible. Avoid else clauses entirely when possible.
 
 *Right:*
 
